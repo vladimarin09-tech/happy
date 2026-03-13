@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,7 @@
 
 body{
 margin:0;
-font-family:Arial;
+font-family:Arial, sans-serif;
 background-image:url('https://i.pinimg.com/736x/7d/94/9a/7d949abec7720a437347742b09518a24.jpg');
 background-size:cover;
 background-position:center;
@@ -30,7 +31,7 @@ height:100%;
 background-image:radial-gradient(white 1px, transparent 1px);
 background-size:40px 40px;
 animation:mover 60s linear infinite;
-opacity:0.4;
+opacity:0.35;
 }
 
 @keyframes mover{
@@ -52,16 +53,28 @@ display:none;
 }
 
 button{
-padding:10px 20px;
+padding:10px 18px;
 font-size:16px;
 margin:10px;
 cursor:pointer;
 border:none;
-border-radius:10px;
+border-radius:8px;
 }
 
 #no{
 position:absolute;
+}
+
+/* botón música */
+
+#musicaBtn{
+position:fixed;
+top:20px;
+right:20px;
+font-size:26px;
+background:none;
+border:none;
+cursor:pointer;
 }
 
 /* torta */
@@ -81,36 +94,34 @@ animation:brincar 1s infinite alternate;
 
 @keyframes brincar{
 from{transform:translateY(0)}
-to{transform:translateY(-15px)}
+to{transform:translateY(-12px)}
 }
 
 /* nombre */
 
 .nombre{
-font-size:65px;
-text-shadow:0 0 10px #ff1493,0 0 40px #ff69b4;
+font-size:60px;
+text-shadow:0 0 10px #ff1493,0 0 35px #ff69b4;
 animation:brillo 2s infinite alternate;
 }
 
 @keyframes brillo{
 from{transform:scale(1)}
-to{transform:scale(1.1)}
+to{transform:scale(1.08)}
 }
 
-/* torta final */
-
 .torta{
-font-size:90px;
+font-size:85px;
 animation:flotar 2s infinite alternate;
 }
 
 @keyframes flotar{
 from{transform:translateY(0)}
-to{transform:translateY(-15px)}
+to{transform:translateY(-12px)}
 }
 
 #contador{
-font-size:70px;
+font-size:65px;
 color:#ff1493;
 }
 
@@ -164,14 +175,15 @@ animation:explosion 1s forwards;
 
 <body>
 
-<!-- MUSICA AUTOMATICA -->
-<audio autoplay loop>
+<audio id="musica" loop>
 <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
+<button id="musicaBtn">🎵</button>
+
 <div class="estrellas"></div>
 
-<!-- PLANO 1 -->
+<!-- PRIMER PLANO -->
 
 <div class="overlay" id="primerPlano">
 
@@ -182,7 +194,7 @@ animation:explosion 1s forwards;
 
 </div>
 
-<!-- PLANO 2 -->
+<!-- SEGUNDO PLANO -->
 
 <div class="overlay" id="segundoPlano">
 
@@ -222,22 +234,43 @@ animation:explosion 1s forwards;
 
 <script>
 
-/* boton que huye */
+/* MUSICA */
 
-const botonNo=document.getElementById("no")
+const musica = document.getElementById("musica")
+const musicaBtn = document.getElementById("musicaBtn")
+let musicaActiva = false
+
+musicaBtn.onclick = function(){
+
+if(musicaActiva){
+musica.pause()
+musicaActiva=false
+}else{
+musica.play()
+musicaActiva=true
+}
+
+}
+
+/* BOTON QUE HUYE */
+
+const botonNo = document.getElementById("no")
+let velocidad = 1
 
 botonNo.addEventListener("mouseover",function(){
 
-botonNo.style.left=Math.random()*80+"vw"
-botonNo.style.top=Math.random()*80+"vh"
+velocidad += 0.4
+
+botonNo.style.left = Math.random()*80*velocidad + "vw"
+botonNo.style.top = Math.random()*80*velocidad + "vh"
 
 })
 
-/* continuar */
+/* CONTINUAR */
 
-document.getElementById("si").onclick=function(){
+document.getElementById("si").onclick = function(){
 
-document.body.style.backgroundImage=
+document.body.style.backgroundImage =
 "url('https://tse3.mm.bing.net/th/id/OIP.MNKn3ww5uPbDMEtr6OqPLQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3')"
 
 primerPlano.style.display="none"
@@ -245,9 +278,9 @@ segundoPlano.style.display="block"
 
 }
 
-/* torta */
+/* TORTA */
 
-cake.onclick=function(){
+document.getElementById("cake").onclick = function(){
 
 segundoPlano.style.display="none"
 regaloPlano.style.display="block"
@@ -256,21 +289,22 @@ iniciarContador()
 
 }
 
-/* contador */
-
-let numero=3
+/* CONTADOR */
 
 function iniciarContador(){
 
-let intervalo=setInterval(()=>{
+let numero = 3
+
+let intervalo = setInterval(function(){
 
 numero--
-contador.innerText=numero
 
-if(numero===0){
+document.getElementById("contador").innerText = numero
+
+if(numero <= 0){
 
 clearInterval(intervalo)
-contador.innerText="🎉"
+document.getElementById("contador").innerText="🎉"
 
 }
 
@@ -278,27 +312,24 @@ contador.innerText="🎉"
 
 }
 
-/* abrir regalo */
+/* ABRIR REGALO */
 
-gift.onclick=function(){
+document.getElementById("gift").onclick = function(){
 
-document.body.style.backgroundImage=
+document.body.style.backgroundImage =
 "url('https://beoriginaltours.com/wp-content/uploads/2023/05/IMG_20200915_001045.jpg')"
 
 regaloPlano.style.display="none"
 tercerPlano.style.display="block"
 
 escribirTexto()
-
 explosionConfeti()
-
 corazones()
-
 fuegos()
 
 }
 
-/* texto */
+/* TEXTO */
 
 const texto = `Feliz cumpleaños Nineth espero que tengas un buen día que pases con las personas que aprecias,
 que te den tu tortita y todo uhhh 
@@ -321,17 +352,18 @@ FELIZ CUMPLEAÑOS 3-8🎉`
 
 function escribirTexto(){
 
-let i=0
+let i = 0
+const mensaje = document.getElementById("mensaje")
 
 function escribir(){
 
-if(i<texto.length){
+if(i >= texto.length) return
 
-mensaje.innerHTML+=texto.charAt(i)
+mensaje.innerHTML += texto.charAt(i)
+
 i++
-setTimeout(escribir,35)
 
-}
+setTimeout(escribir,35)
 
 }
 
@@ -339,16 +371,20 @@ escribir()
 
 }
 
-/* explosion de confeti */
+/* CONFETI */
 
 function explosionConfeti(){
 
-for(let i=0;i<120;i++){
+for(let i=0;i<150;i++){
 
 let c=document.createElement("div")
+
 c.className="confeti"
+
 c.style.left=Math.random()*100+"vw"
+
 c.style.backgroundColor="hsl("+Math.random()*360+",100%,50%)"
+
 c.style.animationDuration=(Math.random()*3+2)+"s"
 
 document.body.appendChild(c)
@@ -357,16 +393,20 @@ document.body.appendChild(c)
 
 }
 
-/* corazones */
+/* CORAZONES */
 
 function corazones(){
 
 for(let i=0;i<30;i++){
 
 let h=document.createElement("div")
+
 h.className="corazon"
+
 h.innerHTML="❤"
+
 h.style.left=Math.random()*100+"vw"
+
 h.style.animationDuration=(Math.random()*5+5)+"s"
 
 document.body.appendChild(h)
@@ -375,16 +415,18 @@ document.body.appendChild(h)
 
 }
 
-/* fuegos */
+/* FUEGOS */
 
 function fuegos(){
 
-setInterval(()=>{
+setInterval(function(){
 
 let f=document.createElement("div")
+
 f.className="firework"
 
 f.style.left=Math.random()*100+"vw"
+
 f.style.top=Math.random()*80+"vh"
 
 document.body.appendChild(f)
