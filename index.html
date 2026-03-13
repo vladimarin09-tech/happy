@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sorpresa Nineth</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background-image:url('https://i.pinimg.com/736x/7d/94/9a/7d949abec7720a437347742b09518a24.jpg');
+background-size:cover;
+background-position:center;
+height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+color:white;
+}
+
+/* estrellas */
+
+.estrellas{
+position:absolute;
+width:100%;
+height:100%;
+background-image:radial-gradient(white 1px, transparent 1px);
+background-size:40px 40px;
+animation:mover 60s linear infinite;
+opacity:0.4;
+}
+
+@keyframes mover{
+from{background-position:0 0}
+to{background-position:1000px 1000px}
+}
+
+.overlay{
+background:rgba(0,0,0,0.55);
+padding:25px;
+border-radius:15px;
+text-align:center;
+max-width:90%;
+z-index:2;
+}
+
+#segundoPlano,#regaloPlano,#tercerPlano{
+display:none;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin:10px;
+cursor:pointer;
+border:none;
+border-radius:10px;
+}
+
+#no{
+position:absolute;
+}
+
+/* torta */
+
+#cake{
+font-size:70px;
+cursor:pointer;
+}
+
+/* regalo */
+
+.gift{
+font-size:100px;
+cursor:pointer;
+animation:brincar 1s infinite alternate;
+}
+
+@keyframes brincar{
+from{transform:translateY(0)}
+to{transform:translateY(-15px)}
+}
+
+/* nombre */
+
+.nombre{
+font-size:65px;
+text-shadow:0 0 10px #ff1493,0 0 40px #ff69b4;
+animation:brillo 2s infinite alternate;
+}
+
+@keyframes brillo{
+from{transform:scale(1)}
+to{transform:scale(1.1)}
+}
+
+/* torta final */
+
+.torta{
+font-size:90px;
+animation:flotar 2s infinite alternate;
+}
+
+@keyframes flotar{
+from{transform:translateY(0)}
+to{transform:translateY(-15px)}
+}
+
+#contador{
+font-size:70px;
+color:#ff1493;
+}
+
+/* confeti */
+
+.confeti{
+position:absolute;
+width:12px;
+height:12px;
+top:-10px;
+animation:caer linear infinite;
+}
+
+@keyframes caer{
+0%{transform:translateY(-10px)}
+100%{transform:translateY(110vh)}
+}
+
+/* corazones */
+
+.corazon{
+position:absolute;
+font-size:22px;
+color:red;
+animation:subir linear infinite;
+}
+
+@keyframes subir{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-10vh)}
+}
+
+/* fuegos */
+
+.firework{
+position:absolute;
+width:6px;
+height:6px;
+background:yellow;
+border-radius:50%;
+animation:explosion 1s forwards;
+}
+
+@keyframes explosion{
+0%{transform:scale(1)}
+100%{transform:scale(25);opacity:0}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSICA AUTOMATICA -->
+<audio autoplay loop>
+<source src="musica.mp3" type="audio/mpeg">
+</audio>
+
+<div class="estrellas"></div>
+
+<!-- PLANO 1 -->
+
+<div class="overlay" id="primerPlano">
+
+<h2>Así empezamos jajaja ¿continuas?</h2>
+
+<button id="si">Sí 😎</button>
+<button id="no">No 😈</button>
+
+</div>
+
+<!-- PLANO 2 -->
+
+<div class="overlay" id="segundoPlano">
+
+<h2>jajajaja mi burrito sabanero</h2>
+
+<div id="cake">🎂</div>
+
+<p>Haz clic en la torta</p>
+
+</div>
+
+<!-- REGALO -->
+
+<div class="overlay" id="regaloPlano">
+
+<h2>🎁 Tengo algo para ti 🎁</h2>
+
+<div id="contador">3</div>
+
+<div class="gift" id="gift">🎁</div>
+
+</div>
+
+<!-- FINAL -->
+
+<div class="overlay" id="tercerPlano">
+
+<h1 class="nombre">NINETH</h1>
+
+<h2>🎉 Feliz Cumpleaños 🎉</h2>
+
+<p id="mensaje"></p>
+
+<div class="torta">🎂</div>
+
+</div>
+
+<script>
+
+/* boton que huye */
+
+const botonNo=document.getElementById("no")
+
+botonNo.addEventListener("mouseover",function(){
+
+botonNo.style.left=Math.random()*80+"vw"
+botonNo.style.top=Math.random()*80+"vh"
+
+})
+
+/* continuar */
+
+document.getElementById("si").onclick=function(){
+
+document.body.style.backgroundImage=
+"url('https://tse3.mm.bing.net/th/id/OIP.MNKn3ww5uPbDMEtr6OqPLQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3')"
+
+primerPlano.style.display="none"
+segundoPlano.style.display="block"
+
+}
+
+/* torta */
+
+cake.onclick=function(){
+
+segundoPlano.style.display="none"
+regaloPlano.style.display="block"
+
+iniciarContador()
+
+}
+
+/* contador */
+
+let numero=3
+
+function iniciarContador(){
+
+let intervalo=setInterval(()=>{
+
+numero--
+contador.innerText=numero
+
+if(numero===0){
+
+clearInterval(intervalo)
+contador.innerText="🎉"
+
+}
+
+},1000)
+
+}
+
+/* abrir regalo */
+
+gift.onclick=function(){
+
+document.body.style.backgroundImage=
+"url('https://beoriginaltours.com/wp-content/uploads/2023/05/IMG_20200915_001045.jpg')"
+
+regaloPlano.style.display="none"
+tercerPlano.style.display="block"
+
+escribirTexto()
+
+explosionConfeti()
+
+corazones()
+
+fuegos()
+
+}
+
+/* texto */
+
+const texto = `Feliz cumpleaños Nineth espero que tengas un buen día que pases con las personas que aprecias,
+que te den tu tortita y todo uhhh 
+
+Que la pases a todo dar.
+No tuve la oportunidad de conocerte más tiempo, solo la oportunidad que tuvimos en el SAS pero fueron días chéveres y aprecio tu amistad.
+
+Jajaja quería regalarte algo pero viendo como van las cosas lo vi difícil la verdad, al menos haré un acto de presencia algo sencillito me dije y bueno espero que te guste.
+
+Cada vez pasan los años pero espero que hayas pasado por todo aprendiendo
+y saliendo adelante.
+
+Puedes contar con mi amistad aunque no sea Mucho.
+
+Eres una persona única y agradable, lo demas mantengamoslo en secreto....
+
+Bueno no lo haré largo jajajaja.
+
+FELIZ CUMPLEAÑOS 3-8🎉`
+
+function escribirTexto(){
+
+let i=0
+
+function escribir(){
+
+if(i<texto.length){
+
+mensaje.innerHTML+=texto.charAt(i)
+i++
+setTimeout(escribir,35)
+
+}
+
+}
+
+escribir()
+
+}
+
+/* explosion de confeti */
+
+function explosionConfeti(){
+
+for(let i=0;i<120;i++){
+
+let c=document.createElement("div")
+c.className="confeti"
+c.style.left=Math.random()*100+"vw"
+c.style.backgroundColor="hsl("+Math.random()*360+",100%,50%)"
+c.style.animationDuration=(Math.random()*3+2)+"s"
+
+document.body.appendChild(c)
+
+}
+
+}
+
+/* corazones */
+
+function corazones(){
+
+for(let i=0;i<30;i++){
+
+let h=document.createElement("div")
+h.className="corazon"
+h.innerHTML="❤"
+h.style.left=Math.random()*100+"vw"
+h.style.animationDuration=(Math.random()*5+5)+"s"
+
+document.body.appendChild(h)
+
+}
+
+}
+
+/* fuegos */
+
+function fuegos(){
+
+setInterval(()=>{
+
+let f=document.createElement("div")
+f.className="firework"
+
+f.style.left=Math.random()*100+"vw"
+f.style.top=Math.random()*80+"vh"
+
+document.body.appendChild(f)
+
+setTimeout(()=>f.remove(),1000)
+
+},700)
+
+}
+
+</script>
+
+</body>
+</html>
